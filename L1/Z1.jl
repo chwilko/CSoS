@@ -1,6 +1,8 @@
 using Plots #mega długo się ładuje 
 using Distributions
 using StatsPlots
+using LaTeXStrings
+
 include("MBP.jl")
 pyplot()
 
@@ -15,14 +17,17 @@ X = X;
 
 histogram(X, legend = false, normalize = true, reuse = false)
 
-plot!(my_dist, lw = 3, linecolor = colorant"magenta")
-# display(p1)
+display(plot!(xlabel = L"x",
+    ylabel = L"f(x)", title  = "PDF and histogram comparison}",
+    my_dist, lw = 3, linecolor = colorant"magenta"))
 
 CDE_X = CDE(t,X, MC);
 
 plot(t, CDE_X, lw = 3, reuse = false)
 
-plot!(my_dist, func = cdf, linecolor = colorant"magenta")
+display(plot!(xlabel = L"x",
+    ylabel = L"\Phi(x)", title  = L"\textrm{CDF and eCDF comparison}",
+    my_dist, func = cdf, linecolor = colorant"magenta"))
 
 my_phi = characterist_r_i(t, X, MC);
 
@@ -31,7 +36,7 @@ plot!(p3, t, exp.(-t.*t/2), linecolor = colorant"magenta")
 p4 = plot(t, my_phi[:,2], lw = 3)
 plot!(p4, t, zeros(len, 1), linecolor = colorant"magenta")
 
-plot(p3, p4, layout = (2, 1))
+display(plot(p3, p4, layout = (2, 1)))
 # plot(p1, p2, layout = (2, 1))
 
 # print("\n");
