@@ -12,7 +12,8 @@ n_ = [2 6 12 100];
 # n = n_[3];
 
 k = length(n_);
-X = zeros(MC, 1);
+global X;
+X = zeros(MC, k);
 CDE_X = zeros(MC, 1);
 my_phi = zeros(MC, 2);
 
@@ -21,16 +22,16 @@ print("lol\n")
 for i in range(1, length = k)
     n = n_[i]
     A = (sum(-log.(rand(MC, n)), dims = 2) - n * ones(MC, 1)) / sqrt(n)
-    X = [X, A] 
+    X[:, i] = A
     # X[:,i] = 
     # size((sum(-log.(rand(MC, n)), dims = 2) - n * ones(MC, 1)) / sqrt(n))
-    # CDE_X = [CDE_X,CDE(t, X, MC)];
+    # CDE_X = [CDE_X, CDE(t, X, MC)];
 
-    # my_phi = [my_phi,characterist_r_i(t, X, MC)];
+    # my_phi = [my_phi, characterist_r_i(t, X, MC)];
 end
 print("lol\n")
 
-histogram(X, legend = false, normalize = true, reuse = false)
+histogram(X, alpha = 0.5, legend = false, normalize = true, reuse = false)
 
 plot!(my_dist, lw = 3, linecolor = colorant"magenta")
 
