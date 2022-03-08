@@ -1,8 +1,9 @@
 
 
 function CDE(t, X, MC)
-    X = sort(X, dims=1);
-    X = X * ones(1,length(t));
+    # X = sort(X, dims=1); to do
+    X = sort(X);
+    X = X * ones(1, length(t));
     return (sum(X .< t' .* ones(MC,1), dims = 1) ./ (MC * ones(1,len)))';
 end
 
