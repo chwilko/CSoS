@@ -26,15 +26,19 @@ CDE_X = CDE(t,X, MC);
 plot(t, CDE_X, lw = 3, reuse = false)
 
 display(plot!(xlabel = L"x",
-    ylabel = L"\Phi(x)", title  = L"\textrm{CDF and eCDF comparison}",
+    ylabel = L"\Phi(x)", title  = "CDF and eCDF comparison",
     my_dist, func = cdf, linecolor = colorant"magenta"))
 
 my_phi = characterist_r_i(t, X, MC);
 
 p3 = plot(t, my_phi[:,1], lw = 3, reuse = false)
-plot!(p3, t, exp.(-t.*t/2), linecolor = colorant"magenta")
+plot!(xlabel = L"x",
+    ylabel = L"Re(\varphi(x))", title  = "Real part",
+    p3, t, exp.(-t.*t/2), linecolor = colorant"magenta")
 p4 = plot(t, my_phi[:,2], lw = 3)
-plot!(p4, t, zeros(len, 1), linecolor = colorant"magenta")
+plot!(xlabel = L"x",
+    ylabel = L"Im(\varphi(x))", title  = "Imaginary part",
+    p4, t, zeros(len, 1), linecolor = colorant"magenta")
 
 display(plot(p3, p4, layout = (2, 1)))
 # plot(p1, p2, layout = (2, 1))
