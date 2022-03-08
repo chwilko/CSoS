@@ -5,10 +5,9 @@ using LaTeXStrings
 include("MBP.jl")
 pyplot()
 
-pareto_alpha = 4;
+pareto_alpha = 1.5;
 lambda = 1;
 x_m = 1 - lambda * (pareto_alpha - 1) / pareto_alpha; # more classical parametrization?
-pareto_sigma = (lambda ^ 2 * pareto_alpha) / ((pareto_alpha - 1) ^ 2 * (pareto_alpha - 2));
 pareto_mu = pareto_alpha / (pareto_alpha - 1) - lambda
 len = 1000;
 MC = 1 * 10 ^ 4;
@@ -28,7 +27,7 @@ Im_simulation = zeros(len, k);
 my_dist = Normal(0,1);
 for i in range(1, length = k)
     n = n_[i]
-    A = (sum(((rand(MC, n)) .^ ( - 1 ./ pareto_alpha)) .* lambda .- lambda, dims = 2) - n * pareto_mu * ones(MC, 1)) / sqrt(n * pareto_sigma)
+    A = (sum(((rand(MC, n)) .^ ( - 1 ./ pareto_alpha)) .* lambda .- lambda, dims = 2) - n * pareto_mu * ones(MC, 1)) / sqrt(n)
     X[:, i] = A
     A = CDE(t, X[:, i], MC)';
     CDF_X[:, i] = A;

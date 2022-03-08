@@ -18,7 +18,7 @@ X = X;
 histogram(X, legend = false, normalize = true, reuse = false)
 
 display(plot!(xlabel = L"x",
-    ylabel = L"f(x)", title  = "PDF and histogram comparison}",
+    ylabel = L"f(x)", title  = "PDF and histogram comparison",
     my_dist, lw = 3, linecolor = colorant"magenta"))
 
 CDE_X = CDE(t,X, MC);
