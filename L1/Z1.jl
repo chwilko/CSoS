@@ -12,7 +12,7 @@ len = 1000;
 my_dist = Normal(0,1);
 
 t = range(-3.5, 3.5, length=len);
-X = sum(rand(MC, k), dims=2) - 12 * 1/2* ones(MC,1);
+X = sum(rand(MC, k), dims = 2) - 12 * 1/2* ones(MC,1);
 X = X;
 
 histogram(X, legend = false, normalize = true, reuse = false)
@@ -21,9 +21,9 @@ display(plot!(xlabel = L"x",
     ylabel = L"f(x)", title  = "PDF and histogram comparison",
     my_dist, lw = 3, linecolor = colorant"magenta"))
 
-CDE_X = CDE(t,X, MC);
+CDF_X = CDF(t, vec(X), MC);
 
-plot(t, CDE_X, lw = 3, reuse = false)
+plot(t, CDF_X, lw = 3, reuse = false)
 
 display(plot!(xlabel = L"x",
     ylabel = L"\Phi(x)", title  = "CDF and eCDF comparison",

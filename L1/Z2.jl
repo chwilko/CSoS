@@ -26,7 +26,7 @@ for i in range(1, length = k)
     n = n_[i]
     A = (sum(-log.(rand(MC, n)), dims = 2) - n * ones(MC, 1)) / sqrt(n)
     X[:, i] = A
-    A = CDE(t, X[:, i], MC)';
+    A = CDF(t, X[:, i], MC)';
     CDF_X[:, i] = A;
     Re_simulation[:, i] = characterist_r_i(t, X[:, i], MC)[:, 1];
     Im_simulation[:, i] = characterist_r_i(t, X[:, i], MC)[:, 2];
