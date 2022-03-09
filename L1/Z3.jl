@@ -30,7 +30,7 @@ for i in range(1, length = k)
     n = n_[i]
     A = (sum(((rand(MC, n)) .^ ( - 1 ./ pareto_alpha)) .* lambda .- lambda, dims = 2) - n * pareto_mu * ones(MC, 1)) / sqrt(n * pareto_sigma)
     X[:, i] = A
-    A = CDE(t, X[:, i], MC)';
+    A = CDF(t, X[:, i], MC)';
     CDF_X[:, i] = A;
     Re_simulation[:, i] = characterist_r_i(t, X[:, i], MC)[:, 1];
     Im_simulation[:, i] = characterist_r_i(t, X[:, i], MC)[:, 2];
@@ -67,6 +67,6 @@ plot!(xlabel = L"x",
 
 plot(p3, p4, layout = (2, 1))
 
-print("\n");
+# print("\n");
 
-print("PRESS ENTER"); readline()
+# print("PRESS ENTER"); readline()
