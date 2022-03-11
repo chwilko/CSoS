@@ -6,14 +6,15 @@ function CDF(t, X, MC)
     return (sum(X .< t' .* ones(MC,1), dims = 1) ./ (MC * ones(1,len)))';
 end
 
-# function PDE(t, X, MC)
-#     X = sort(X, dims=1);
-#     n = length(t);
-#     X = X * ones(1,n);
-#     c = (sum(X .< t' .* ones(MC,1), dims = 1))'
-#     return [ c[2:n] - c[1:n-1]];
-#     # return (sum(X .< t' .* ones(MC,1), dims = 1))';
-# end
+function PDF(t, X, MC)
+    X = sort(X, dims=1);
+    n = length(t);
+    # X = X;
+    return ((MC * ones(n, 1))
+        - (sum((X * ones(1,n) .< t' .* ones(MC,1))
+        + [X * ones(1,n-1) .> (t[2:n])' .* ones(MC,1) zeros(MC, 1)],
+        dims = 1)')) ./ MC
+end
 
 function characterist_r_i(t, X, MC)
     len = length(t);

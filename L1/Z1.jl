@@ -13,7 +13,7 @@ my_dist = Normal(0,1);
 
 t = range(-3.5, 3.5, length=len);
 X = sum(rand(MC, k), dims = 2) - 12 * 1/2* ones(MC,1);
-X = X;
+# X = X;
 
 histogram(X, legend = false, normalize = true, reuse = false)
 
