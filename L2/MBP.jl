@@ -1,5 +1,4 @@
 function CDF(t, X, MC)
-    # X = sort(X, dims=1); to do
     len = length(t);
     X = sort(X);
     X = X * ones(1, length(t));
@@ -7,7 +6,7 @@ function CDF(t, X, MC)
 end
 
 function PDF(t, X, MC)
-    X = sort(X, dims=1);
+    X = sort(X);
     n = length(t);
     # X = X;
     return ((MC * ones(n, 1))
