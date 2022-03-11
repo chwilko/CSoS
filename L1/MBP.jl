@@ -24,3 +24,7 @@ function characterist_r_i(t, X, MC)
     Im = (sum(sin.(X .* t), dims = 1) ./ (MC * ones(1,len)))';
     return [Re Im];
 end
+
+function d_exp(N, M, lambda)
+    return -1 / lambda * log.(rand(N,M));
+end
