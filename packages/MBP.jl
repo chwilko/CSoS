@@ -16,7 +16,6 @@ function PDF(t, X, MC)
         X = sort(X);
     end
     n = length(t);
-    # X = X;
     return ((MC * ones(n, 1))
         - (sum((X * ones(1,n) .< t' .* ones(MC,1))
         + [X * ones(1,n-1) .> (t[2:n])' .* ones(MC,1) zeros(MC, 1)],
