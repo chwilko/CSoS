@@ -1,6 +1,7 @@
 include("MBP.jl")
 
 function alphastable_(N, M, alpha, beta)
+
     U = pi * (rand(N,M) .- (1 / 2));
     W = d_exp(N, M, 1);
     if alpha == 1
@@ -18,15 +19,19 @@ function alphastable_(N, M, alpha, beta)
 end
 
 function alphastable(N, M, alpha, beta, gamma, delta, k)
+    
     if k == 0
         if alpha == 1
             X = gamma * alphastable_(N, M, alpha, beta) .+ delta;
         else
-            X = gamma * (alphastable_(N, M, alpha, beta) .- beta * tan.(pi * alpha / 2)) .+ delta;
+            X = gamma * (alphastable_(N, M, alpha, beta) .-
+                beta .* tan.(pi * alpha / 2)) .+ delta;
         end
     else
+
         if alpha == 1
-            X = gamma * alphastable_(N, M, alpha, beta) .+ (delta + beta * 2 / pi *gamma * log(gamma));
+            X = gamma * alphastable_(N, M, alpha, beta) .+
+                (delta + beta * 2 / pi *gamma * log(gamma));
         else
             X = gamma * alphastable_(N, M, alpha, beta) .+ delta;
         end
