@@ -1,0 +1,1 @@
+parametry opcjonalne działają jak w Python3 xD
