@@ -1,10 +1,20 @@
 function CDF(t, X, MC)
     len = length(t);
+    # if length(size(X)) == 2
+    #     X = sort(X, dims=1);
+    # else
+    #     X = sort(X);
+    # end
     X = X * ones(1, length(t));
     return (sum(X .< t' .* ones(MC,1), dims = 1) ./ (MC * ones(1,len)))';
 end
 
 function PDF(t, X, MC)
+    # if length(size(X)) == 2
+    #     X = sort(X, dims=1);
+    # else
+    #     X = sort(X);
+    # end
     n = length(t);
     t = t .- (t[2] - t[1]) / 2;
     p = CDF(t[1:end-1], X, MC);
