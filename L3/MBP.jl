@@ -41,12 +41,12 @@ end
 function characterist_r_i(t, X, MC)
     len = length(t);
     X = X * ones(1,length(t));
-    t = t' .* ones(MC,1);
-    Re = (sum(cos.(X .* t), dims = 1) ./ (MC * ones(1,len)))';
-    Im = (sum(sin.(X .* t), dims = 1) ./ (MC * ones(1,len)))';
+    t = t' .* ones(MC, 1);
+    Re = (sum(cos.(X .* t), dims = 1) ./ (MC * ones(1, len)))';
+    Im = (sum(sin.(X .* t), dims = 1) ./ (MC * ones(1, len)))';
     return [Re Im];
 end
 
 function d_exp(N, M, lambda)
-    return -1 / lambda * log.(rand(N,M));
+    return -1 / lambda * log.(rand(N, M));
 end
