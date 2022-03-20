@@ -23,10 +23,11 @@ end
 
 
 function PDF(t, X, MC)
-    t = t .- (t[2] - t[1]) / 2;
+    dt = (t[2] - t[1])
+    t = t .- dt / 2;
     p = CDF(t[1:end-1], X, MC);
     q = CDF(t[2:end], X, MC);
-    return .- p .+ q;
+    return (.- p .+ q) ./ dt;
 end
 
 # function PDF(t, X, MC)
