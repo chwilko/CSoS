@@ -6,7 +6,7 @@ function alphastable_(N, M, alpha, beta)
     if alpha == 1
         X = 2 / pi * (
             (pi / 2 .+ beta * U) .* tan.(U) -
-            beta * log.(W .* cos.(U) ./ (1 .+ beta * U)));
+            beta * log.(W .* cos.(U) ./ (1 .+ (2 / pi) * beta * U)));
     else
         B = (atan(beta * tan(pi * alpha / 2))) / alpha;
         S = (1 + beta ^ 2 * (tan(pi * alpha / 2))^2) ^ (1 / (2 * alpha));

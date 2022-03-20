@@ -8,8 +8,8 @@ def alphastable_(N, M, alpha, beta):
     W = -1 * np.log(np.random.rand(N, M))
     if alpha == 1:
         X = 2 / pi * (
-            (np.pi / 2 + beta * U) * tan(U) - 
-            beta * np.log(W * np.cos(U) / (1 + beta * U))
+            (np.pi / 2 + beta * U) * np.tan(U) - 
+            beta * np.log(W * np.cos(U) / (1 + (2 / np.pi) * beta * U))
         )
     else:
         B = (np.arctan(beta * np.tan(np.pi * alpha / 2))) / alpha
