@@ -66,10 +66,10 @@ def multivariate_alphastable(alpha, gamma, points):
     """
     if len(gamma) != len(points):
         raise Exception("Vectors must have the same lengths!")
-    gamma = np.array(gamma)
-    points = np.array(points).T
-    Z = alphastable(1, len(gamma), alpha, 1, 1, 0, 1)
-    return np.sum(gamma * Z * points, 1)
+    gamma = np.array(gamma).T
+    points = np.array(points)
+    Z = alphastable(len(gamma), 1, alpha, 1, 1, 0, 1)
+    return np.sum(gamma * Z * points, 0)
 
 if __name__ == "__main__":
     t = np.linspace(-3.5,3.5, 1000)
