@@ -1,7 +1,9 @@
 import numpy as np
+
 if __name__ == "__main__":
     from basicDistributionFunctions import *
     import matplotlib.pyplot as plt
+
 
 def alphastable_(N, M, alpha, beta):
     """_summary_
@@ -18,7 +20,7 @@ def alphastable_(N, M, alpha, beta):
     U = np.pi * (np.random.rand(N, M) - 1 / 2)
     W = -1 * np.log(np.random.rand(N, M))
     if alpha == 1:
-        X = 2 / pi * (
+        X = 2 / np.pi * (
             (np.pi / 2 + beta * U) * np.tan(U) - 
             beta * np.log(W * np.cos(U) / (1 + (2 / np.pi) * beta * U))
         )
@@ -27,7 +29,6 @@ def alphastable_(N, M, alpha, beta):
         S = (1 + beta ** 2 * (np.tan(np.pi * alpha / 2)) ** 2) ** (1 / (2 * alpha))
         X = S * (np.sin(alpha * (U + B))) / ((np.cos(U)) ** (1 / alpha)) * ((np.cos(U - alpha * (U + B))) / W) ** ((1 - alpha) / alpha)
     return X
-
 
 def alphastable(N, M, alpha, beta, gamma, delta, k):
     """_summary_
@@ -71,25 +72,32 @@ def multivariate_alphastable(alpha, gamma, points):
     Z = alphastable(len(gamma), 1, alpha, 1, 1, 0, 1)
     return np.sum(gamma * Z * points, 0)
 
+
 if __name__ == "__main__":
     t = np.linspace(-3.5,3.5, 1000)
     X = alphastable(10 ** 5,1,2,0,1 / 2 ** (1 / 2),0,1)
 
     plt.figure(0)
     plt.plot(t, CDF(t, X))
+    print("figure(0)")
 
     plt.figure(1)
     tmp = CDF2(X)
     plt.plot(tmp[0], tmp[1])
+    print("figure(1)")
 
     plt.figure(2)
     plt.plot(t[:-1], PDF(t, X))
+    print("figure(2)")
 
     plt.figure(3)
     tmp = characterist_r_i(t, X)
     plt.plot(t, tmp[0])
     plt.plot(t, np.exp(-t ** 2 / 2))
+    print("figure(3)")
+
     plt.figure(4)
     plt.plot(t, tmp[1])
+    print("figure(4)")
 
     plt.show()
