@@ -1,4 +1,5 @@
 import numpy as np
+import numpy.matlib
 if __name__ == "__main__":
     from basicDistributionFunctions import *
     import matplotlib.pyplot as plt
@@ -56,7 +57,7 @@ def alphastable(N, M, alpha, beta, gamma, delta, k):
             X = gamma * alphastable_(N, M, alpha, beta) + delta
     return X
 
-def multivariate_alphastable(alpha, gamma, points):
+def multivariate_alphastable(N, alpha, gamma, points):
     """function to simulate multivariate alpha stable variable
     for the discrete spectral measure
 
@@ -66,14 +67,22 @@ def multivariate_alphastable(alpha, gamma, points):
     """
     if len(gamma) != len(points):
         raise Exception("Vectors must have the same lengths!")
+    k = len(gamma)
     gamma = np.power(np.array(gamma), 1 / alpha)
     points = np.array(points).T
     if alpha != 1:
-        Z = alphastable(1, len(gamma), alpha, 1, 1, 0, 1)
+        Z = alphastable(1, N*len(gamma), alpha, 1, 1, 0, 1)
     elif alpha == 1:
-        Z = alphastable(1, len(gamma), alpha, 1, 1, 0, 1) + (
+        Z = alphastable(1, N*len(gamma), alpha, 1, 1, 0, 1) + (
                 2 / np.pi) * np.log(gamma)
-    return np.sum(gamma * Z * points, 1)
+    gamma = np.matlib.repmat(gamma, 1, N)
+    points = np.matlib.repmat(points, 1, N)
+    ret = gamma * Z * points
+    ret = ret.reshape((N * len(points), k))
+    ret = np.sum(ret, 1)
+    ret = ret.reshape((N, 2))
+    ret = ret.T.reshape(len(points), N).T
+    return ret
 
 if __name__ == "__main__":
     t = np.linspace(-3.5,3.5, 1000)
