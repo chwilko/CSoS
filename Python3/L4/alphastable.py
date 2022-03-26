@@ -18,7 +18,7 @@ def alphastable_(N, M, alpha, beta):
     U = np.pi * (np.random.rand(N, M) - 1 / 2)
     W = -1 * np.log(np.random.rand(N, M))
     if alpha == 1:
-        X = 2 / pi * (
+        X = 2 / np.pi * (
             (np.pi / 2 + beta * U) * np.tan(U) - 
             beta * np.log(W * np.cos(U) / (1 + (2 / np.pi) * beta * U))
         )
@@ -51,7 +51,7 @@ def alphastable(N, M, alpha, beta, gamma, delta, k):
             X = gamma * (alphastable_(N, M, alpha, beta) - beta * np.tan(np.pi * alpha / 2)) + delta
     else:
         if alpha == 1:
-            X = gamma * alphastable_(N, M, alpha, beta) + (delta + beta * 2 / pi * gamma * np.log(gamma))
+            X = gamma * alphastable_(N, M, alpha, beta) + (delta + beta * 2 / np.pi * gamma * np.log(gamma))
         else:
             X = gamma * alphastable_(N, M, alpha, beta) + delta
     return X
@@ -66,9 +66,13 @@ def multivariate_alphastable(alpha, gamma, points):
     """
     if len(gamma) != len(points):
         raise Exception("Vectors must have the same lengths!")
-    gamma = np.array(gamma)
+    gamma = np.power(np.array(gamma), 1 / alpha)
     points = np.array(points).T
-    Z = alphastable(1, len(gamma), alpha, 1, 1, 0, 1)
+    if alpha != 1:
+        Z = alphastable(1, len(gamma), alpha, 1, 1, 0, 1)
+    elif alpha == 1:
+        Z = alphastable(1, len(gamma), alpha, 1, 1, 0, 1) + (
+                2 / np.pi) * np.log(gamma)
     return np.sum(gamma * Z * points, 1)
 
 if __name__ == "__main__":
