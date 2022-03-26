@@ -18,7 +18,7 @@ def alphastable_(N, M, alpha, beta):
     U = np.pi * (np.random.rand(N, M) - 1 / 2)
     W = -1 * np.log(np.random.rand(N, M))
     if alpha == 1:
-        X = 2 / pi * (
+        X = 2 / np.pi * (
             (np.pi / 2 + beta * U) * np.tan(U) - 
             beta * np.log(W * np.cos(U) / (1 + (2 / np.pi) * beta * U))
         )
