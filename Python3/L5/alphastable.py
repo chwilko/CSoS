@@ -84,6 +84,9 @@ def multivariate_alphastable(N, alpha, gamma, points):
     ret = ret.T.reshape(len(points), N).T
     return ret
 
+
+
+
 if __name__ == "__main__":
     t = np.linspace(-3.5,3.5, 1000)
     X = alphastable(10 ** 5,1,2,0,1 / 2 ** (1 / 2),0,1)

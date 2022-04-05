@@ -15,3 +15,5 @@ def multivariate_alphastable(alpha, gamma, points):
     points = np.array(points)
     Z = alphastable(len(gamma), 1, alpha, 1, 1, 0, 1)
     return np.sum(gamma * Z * points, 0)
+
+    
