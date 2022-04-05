@@ -25,3 +25,5 @@ def characterist_r_i(t, X):
     Re = np.cos(X * t).sum(1) / MC
     Im = np.sin(X * t).sum(1) / MC
     return [Re, Im]
+
+# if __name__ == "__mai0
