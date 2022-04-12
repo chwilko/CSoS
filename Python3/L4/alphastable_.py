@@ -1,9 +1,8 @@
 import numpy as np
-
+import numpy.matlib
 if __name__ == "__main__":
     from basicDistributionFunctions import *
     import matplotlib.pyplot as plt
-
 
 def alphastable_(N, M, alpha, beta):
     """_summary_
@@ -30,6 +29,7 @@ def alphastable_(N, M, alpha, beta):
         X = S * (np.sin(alpha * (U + B))) / ((np.cos(U)) ** (1 / alpha)) * ((np.cos(U - alpha * (U + B))) / W) ** ((1 - alpha) / alpha)
     return X
 
+
 def alphastable(N, M, alpha, beta, gamma, delta, k):
     """_summary_
 
@@ -52,12 +52,12 @@ def alphastable(N, M, alpha, beta, gamma, delta, k):
             X = gamma * (alphastable_(N, M, alpha, beta) - beta * np.tan(np.pi * alpha / 2)) + delta
     else:
         if alpha == 1:
-            X = gamma * alphastable_(N, M, alpha, beta) + (delta + beta * 2 / pi * gamma * np.log(gamma))
+            X = gamma * alphastable_(N, M, alpha, beta) + (delta + beta * 2 / np.pi * gamma * np.log(gamma))
         else:
             X = gamma * alphastable_(N, M, alpha, beta) + delta
     return X
 
-def multivariate_alphastable(alpha, gamma, points):
+def multivariate_alphastable(N, alpha, gamma, points):
     """function to simulate multivariate alpha stable variable
     for the discrete spectral measure
 
@@ -67,12 +67,22 @@ def multivariate_alphastable(alpha, gamma, points):
     """
     if len(gamma) != len(points):
         raise Exception("Vectors must have the same lengths!")
-    gamma = np.array(gamma)
-    gamma = np.power(gamma, 1/alpha)
+    k = len(gamma)
+    gamma = np.power(np.array(gamma), 1 / alpha)
     points = np.array(points).T
-    Z = alphastable(1, len(gamma), alpha, 1, 1, 0, 1)
-    return np.sum(gamma * Z * points, 1)
-
+    if alpha != 1:
+        Z = alphastable(1, N*len(gamma), alpha, 1, 1, 0, 1)
+    elif alpha == 1:
+        Z = alphastable(1, N*len(gamma), alpha, 1, 1, 0, 1) + (
+                2 / np.pi) * np.log(gamma)
+    gamma = np.matlib.repmat(gamma, 1, N)
+    points = np.matlib.repmat(points, 1, N)
+    ret = gamma * Z * points
+    ret = ret.reshape((N * len(points), k))
+    ret = np.sum(ret, 1)
+    ret = ret.reshape((N, 2))
+    ret = ret.T.reshape(len(points), N).T
+    return ret
 
 if __name__ == "__main__":
     t = np.linspace(-3.5,3.5, 1000)
@@ -80,25 +90,19 @@ if __name__ == "__main__":
 
     plt.figure(0)
     plt.plot(t, CDF(t, X))
-    print("figure(0)")
 
     plt.figure(1)
     tmp = CDF2(X)
     plt.plot(tmp[0], tmp[1])
-    print("figure(1)")
 
     plt.figure(2)
     plt.plot(t[:-1], PDF(t, X))
-    print("figure(2)")
 
     plt.figure(3)
     tmp = characterist_r_i(t, X)
     plt.plot(t, tmp[0])
     plt.plot(t, np.exp(-t ** 2 / 2))
-    print("figure(3)")
-
     plt.figure(4)
     plt.plot(t, tmp[1])
-    print("figure(4)")
 
     plt.show()

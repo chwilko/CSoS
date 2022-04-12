@@ -1,8 +1,8 @@
 import numpy as np
 import numpy.matlib
-if __name__ == "__main__":
-    from basicDistributionFunctions import *
-    import matplotlib.pyplot as plt
+# if __name__ == "__main__":
+    # from basicDistributionFunctions import *
+    # import matplotlib.pyplot as plt
 
 def alphastable_(N, M, alpha, beta):
     """_summary_
@@ -57,7 +57,8 @@ def alphastable(N, M, alpha, beta, gamma, delta, k):
             X = gamma * alphastable_(N, M, alpha, beta) + delta
     return X
 
-def multivariate_alphastable(N, alpha, gamma, points):
+
+def multivariate_alphastable_(alpha, gamma, points):
     """function to simulate multivariate alpha stable variable
     for the discrete spectral measure
 
@@ -65,6 +66,7 @@ def multivariate_alphastable(N, alpha, gamma, points):
         gamma (_type_): _description_
         points (_type_): _description_
     """
+    N = 1
     if len(gamma) != len(points):
         raise Exception("Vectors must have the same lengths!")
     k = len(gamma)
@@ -78,31 +80,56 @@ def multivariate_alphastable(N, alpha, gamma, points):
     gamma = np.matlib.repmat(gamma, 1, N)
     points = np.matlib.repmat(points, 1, N)
     ret = gamma * Z * points
-    ret = ret.reshape((N * len(points), k))
-    ret = np.sum(ret, 1)
-    ret = ret.reshape((N, 2))
-    ret = ret.T.reshape(len(points), N).T
-    return ret
+    # ret = ret.reshape((N * len(points), k)) # maybe sth is wrong in reshaping
+    # ret = np.sum(ret, 1)
+    # ret = ret.reshape((N, 2))
+    # ret = ret.T.reshape(len(points), N).T
+    return ret.sum(1)
+
+
+def multivariate_alphastable(N, alpha, gamma, points):
+    """function to simulate multivariate alpha stable variable
+    for the discrete spectral measure
+
+    Args:
+        gamma (_type_): _description_
+        points (_type_): _description_
+    """
+    ret = []
+    for i in range(N):
+        ret.append(multivariate_alphastable_(alpha, gamma, points))
+    return np.array(ret)
+
+
+
+
 
 if __name__ == "__main__":
-    t = np.linspace(-3.5,3.5, 1000)
-    X = alphastable(10 ** 5,1,2,0,1 / 2 ** (1 / 2),0,1)
+    alpha = 0.9
+    N = 10000
+    gamma = [0.25, 0.125, 0.25, 0.25, 0.125, 0.25]
+    points = [[1, 0], [0.5, np.sqrt(3)/2],
+            [-1/2, np.sqrt(3)/2], [-1, 0],
+            [-1/2, -np.sqrt(3)/2], [1/2, -np.sqrt(3)/2]] 
+    print(multivariate_alphastable(N, alpha, gamma, points))
+    # t = np.linspace(-3.5,3.5, 1000)
+    # X = alphastable(10 ** 5,1,2,0,1 / 2 ** (1 / 2),0,1)
 
-    plt.figure(0)
-    plt.plot(t, CDF(t, X))
+    # plt.figure(0)
+    # plt.plot(t, CDF(t, X))
 
-    plt.figure(1)
-    tmp = CDF2(X)
-    plt.plot(tmp[0], tmp[1])
+    # plt.figure(1)
+    # tmp = CDF2(X)
+    # plt.plot(tmp[0], tmp[1])
 
-    plt.figure(2)
-    plt.plot(t[:-1], PDF(t, X))
+    # plt.figure(2)
+    # plt.plot(t[:-1], PDF(t, X))
 
-    plt.figure(3)
-    tmp = characterist_r_i(t, X)
-    plt.plot(t, tmp[0])
-    plt.plot(t, np.exp(-t ** 2 / 2))
-    plt.figure(4)
-    plt.plot(t, tmp[1])
+    # plt.figure(3)
+    # tmp = characterist_r_i(t, X)
+    # plt.plot(t, tmp[0])
+    # plt.plot(t, np.exp(-t ** 2 / 2))
+    # plt.figure(4)
+    # plt.plot(t, tmp[1])
 
-    plt.show()
+    # plt.show()
