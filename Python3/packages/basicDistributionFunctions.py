@@ -1,4 +1,5 @@
 import numpy as np
+#? basicDistributionFunctions.py
 
 def CDF(t, X):
     length = len(t)
@@ -25,3 +26,15 @@ def characterist_r_i(t, X):
     Re = np.cos(X * t).sum(1) / MC
     Im = np.sin(X * t).sum(1) / MC
     return [Re, Im]
+
+def tau(X, Y):
+    X_ch = characterist_r_i([1], X)
+    Y_ch = characterist_r_i([-1], Y)
+    X_Y_ch = characterist_r_i([1], X-Y)
+
+    X_ch = X_ch[0] +  (X_ch[1]) * 1j
+    Y_ch = Y_ch[0] +  (Y_ch[1]) * 1j
+    X_Y_ch = X_Y_ch[0] +  (X_Y_ch[1]) * 1j
+
+    res = (np.log(X_Y_ch) - np.log(X_ch) - np.log(Y_ch))
+    return [np.real(res)[0], np.imag(res)[0]]

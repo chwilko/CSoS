@@ -56,7 +56,7 @@ def alphastable(N, M, alpha, beta, gamma, delta, k):
         else:
             X = gamma * alphastable_(N, M, alpha, beta) + delta
     return X
-
+z
 def multivariate_alphastable(alpha, gamma, points):
     """function to simulate multivariate alpha stable variable
     for the discrete spectral measure
