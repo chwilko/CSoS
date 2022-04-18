@@ -56,8 +56,8 @@ def alphastable(N, M, alpha, beta, gamma, delta, k):
         else:
             X = gamma * alphastable_(N, M, alpha, beta) + delta
     return X
-z
-def multivariate_alphastable(alpha, gamma, points):
+
+def multivariate_alphastable(alpha, gamma, points, N = 1):
     """function to simulate multivariate alpha stable variable
     for the discrete spectral measure
 
@@ -65,13 +65,16 @@ def multivariate_alphastable(alpha, gamma, points):
         gamma (_type_): _description_
         points (_type_): _description_
     """
+    Random_vector = np.ones((N, 2))
     if len(gamma) != len(points):
         raise Exception("Vectors must have the same lengths!")
     gamma = np.array(gamma)
     gamma = np.power(gamma, 1/alpha)
     points = np.array(points).T
-    Z = alphastable(1, len(gamma), alpha, 1, 1, 0, 1)
-    return np.sum(gamma * Z * points, 1)
+    Z = alphastable(N, len(gamma), alpha, 1, 1, 0, 1)
+    for i in range(N):
+        Random_vector[i, :] =  np.sum(gamma * Z[i, :] * points, 1)
+    return Random_vector
 
 
 if __name__ == "__main__":
