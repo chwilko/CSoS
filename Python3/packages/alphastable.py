@@ -52,7 +52,7 @@ def alphastable(N, M, alpha, beta, gamma, delta, k):
             X = gamma * (alphastable_(N, M, alpha, beta) - beta * np.tan(np.pi * alpha / 2)) + delta
     else:
         if alpha == 1:
-            X = gamma * alphastable_(N, M, alpha, beta) + (delta + beta * 2 / pi * gamma * np.log(gamma))
+            X = gamma * alphastable_(N, M, alpha, beta) + (delta + beta * 2 / np.pi * gamma * np.log(gamma))
         else:
             X = gamma * alphastable_(N, M, alpha, beta) + delta
     return X
