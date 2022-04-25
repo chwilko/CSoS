@@ -1,4 +1,5 @@
 import numpy as np
+from basicDistributionFunctions import characterist_r_i, CDF2
 
 if __name__ == "__main__":
     from basicDistributionFunctions import *
@@ -36,10 +37,10 @@ def alphastable(N, M, alpha, beta, gamma, delta, k):
     Args:
         N (_type_): _description_
         M (_type_): _description_
-        alpha (_type_): _description_
-        beta (_type_): _description_
-        gamma (_type_): _description_
-        delta (_type_): _description_
+        alpha (float): must be between 0 and 2 (excluding 0 and including 2)
+        beta (float): between -1 and 1
+        gamma (float): greater or equal zero
+        delta (float): real number
         k (_type_): _description_
 
     Returns:
@@ -76,6 +77,42 @@ def multivariate_alphastable(alpha, gamma, points, N = 1):
         Random_vector[i, :] =  np.sum(gamma * Z[i, :] * points, 1)
     return Random_vector
 
+def get_alpha_char(alphastable_vector, t):
+    """Function performing the linear regression algorithm for
+    finding the alpha parameter of alpha stable sample.
+
+    Args:
+        alphastable_vector (_type_): _description_
+        t (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """    
+    Re_char_X = characterist_r_i(t, alphastable_vector)[0]
+    Y = np.log(-np.log(np.abs(Re_char_X))).T
+    X = np.vstack((np.log(t), np.ones(len(Y)))).T
+    alpha, beta = np.linalg.inv(X.T @ X) @ X.T @ Y
+    return alpha, beta
+
+def get_alpha_cdf(alphastable_vector, perc):
+    """Function performing the linear regression algorithm for
+    finding the alpha parameter of alpha stable sample.
+
+    Args:
+        alphastable_vector (_type_): _description_
+        perc (_type_): _description_
+
+    Returns:
+        _type_: _description_
+    """    
+    N = len(alphastable_vector)
+    [sorted_X, ecdf] = CDF2(alphastable_vector)
+    ecdf_cut = ecdf[-int(perc * N):-1]
+    X_cut = sorted_X[-int(perc * N):-1]
+    Y = np.log(1 - ecdf_cut)
+    X = np.vstack((np.log(X_cut), np.ones(len(X_cut)))).T
+    alpha, beta = np.linalg.inv(X.T @ X) @ X.T @ Y
+    return -alpha
 
 if __name__ == "__main__":
     t = np.linspace(-3.5,3.5, 1000)
