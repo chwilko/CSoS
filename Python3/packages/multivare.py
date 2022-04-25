@@ -43,15 +43,22 @@ def Cholesky_factor(Sigma):
 
 
 def multivate_characteristic_r_i(T, X):
-    '''
-        Tau -- list of meshgrids
-    '''
-    Re = np.ones((len(T), len(T)))
-    Im = np.ones((len(T), len(T)))
-    for i in range(len(T)):
-        for j in range(len(T)):
-            Re[i, j] = np.sum(np.cos(T[i] * X[:, 0] + T[j] * X[:, 1]))
-            Im[i, j] = np.sum(np.sin(T[i] * X[:, 0] + T[j] * X[:, 1]))
+    # '''
+    #     Tau -- list of meshgrids
+    # '''
+    return multivate_characteristic_r_i_2_dim(T,T,X)
+
+
+def multivate_characteristic_r_i_2_dim(T1, T2, X):
+    # '''
+    #     Tau -- list of meshgrids
+    # '''
+    Re = np.ones((len(T1), len(T2)))
+    Im = np.ones((len(T1), len(T2)))
+    for i in range(len(T1)):
+        for j in range(len(T2)):
+            Re[i, j] = np.sum(np.cos(T1[i] * X[:, 0] + T2[j] * X[:, 1]))
+            Im[i, j] = np.sum(np.sin(T1[i] * X[:, 0] + T2[j] * X[:, 1]))
     return [Re / len(X), Im /len(X)]
 
 
