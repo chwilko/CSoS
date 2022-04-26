@@ -1,7 +1,2 @@
-1. brzegowe
-2. Za chwile
-3. storzek
-4. Done -> multivare.MN_distribution
-5. Done
-6. Done -> multivare.multivate_characteristic
-7. Done -> multivare.tau_2_dim
+6 We assume is ok
+7 Done maby beter describe
