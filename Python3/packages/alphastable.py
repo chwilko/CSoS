@@ -88,7 +88,7 @@ def get_alpha_char(alphastable_vector, t):
     Returns:
         _type_: _description_
     """    
-    Re_char_X = characterist_r_i(t, alphastable_vector)[0]
+    Re_char_X = characterist_r_i(t, alphastable_vector)[0] # instead of Re you can take Abs
     Y = np.log(-np.log(np.abs(Re_char_X))).T
     X = np.vstack((np.log(t), np.ones(len(Y)))).T
     alpha, beta = np.linalg.inv(X.T @ X) @ X.T @ Y
