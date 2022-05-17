@@ -38,3 +38,11 @@ def tau(X, Y):
 
     res = (np.log(X_Y_ch) - np.log(X_ch) - np.log(Y_ch))
     return [np.real(res)[0], np.imag(res)[0]]
+
+
+
+def equantile(X, alpha):
+    return np.sort(X)[alpha * len(X) // 1]
+
+def equantile_list(X):
+    return np.sort(X)

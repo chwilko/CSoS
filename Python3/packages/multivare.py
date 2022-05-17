@@ -71,6 +71,8 @@ def multivate_characteristic_r_i_2_dim(T1, T2, X):
 
 def tau_2_dim(X):
     X = np.array(X)
+    if X.shape[1] != 2:
+        raise("you have {X.shape} shape of X it should be (N, 2)")
     return tau(X[:,0], X[:,1])
     
 
