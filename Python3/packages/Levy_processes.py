@@ -7,6 +7,18 @@ from alphastable import alphastable
 
 # def Levy_prcesses(M, T, dt, alpha, beta, T0=0):
 def Levy_prcesses(T, M, N, alpha, beta):
+    """_summary_
+
+    Args:
+        T (_type_): Finish time of process. (Probably not the best name)
+        M (_type_): Number of independend proceses.
+        N (_type_): Number of times steps.
+        alpha (_type_): alpha parameter for Levy Proceses.
+        beta (_type_): beta parameter for Levy Proceses.
+
+    Returns:
+        np.array: Levy proceses 
+    """    
     # N = (T - T0)/ dt
     S = alphastable(N, M,
         alpha, beta,
