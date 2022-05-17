@@ -42,7 +42,9 @@ def tau(X, Y):
 
 
 def equantile(X, alpha):
-    return np.sort(X)[alpha * len(X) // 1]
+    return np.sort(X, 0)[alpha * len(X) // 1]
 
 def equantile_list(X):
-    return np.sort(X)
+    a = np.sort(X, 0)
+    a[0] = 0
+    return a
