@@ -68,7 +68,6 @@ def TAMSD(X, tau):
     except ValueError:
         return np.var(X)
 
-
 def EAMSD(X, tau):
     return np.sum((X[tau,:] - X[0,:]) ** 2) / len(X[0,:])
 
