@@ -1,47 +1,25 @@
 import numpy as np
 from alphastable import alphastable
 
-def integral_form_simulation(N, f, dt, alpha = 0.5):
-    Z = alpha_stable_levy_motion(alpha, dt, N + 1, 1)[0]
-    # Z = alphastable(N, 1, alpha = alpha, beta = 0, gamma = dt ** (1 / alpha), delta = 0, k = 1)
-    return f @ np.diff(Z)
-def alpha_stable_levy_motion(alpha, dt, n, num_trajectories):
-    h = dt
-    M = np.zeros((num_trajectories, n))
-    for i in range(num_trajectories):
-        X_stable = stable(alpha=alpha, gamma=h**(1/alpha), size=n-1)
-        X = np.concatenate(([0], X_stable))
-        Y = np.cumsum(X)
-        M[i, :] = Y
-    return M
-def stable(alpha: float = 2, beta: int = 0, gamma: int = 1, delta: int = 0, par: int = 0, size: int = 1) ->            np.array:
-    z_0 = standard_stable(alpha=alpha,beta=beta,size=size)
+def f_levy(H, alpha, S, t, cut_point_1, S_negative, max_S_neg):
+    cut_point_2 = np.where(S > t)[0][0] # less than t
+    S_positive = S[cut_point_1 - 1:cut_point_2 - 1]
+    return np.concatenate(
+            ((t - S_negative) ** (H - 1 / alpha) - max_S_neg,
+            (t - S_positive) ** (H - 1 / alpha))
+        )
 
-    # par = 0
-    if par == 0:
-        if alpha == 1:
-            x = gamma * z_0 + delta
-        else:
-            x = gamma * (z_0 - beta * np.tan(np.pi * alpha/2)) + delta
-
-    # par = 1
-    elif par == 1:
-        if alpha == 1:
-            x = gamma * z_0 + (delta + beta * 2/np.pi * gamma * np.log(gamma))
-        else:
-            x = gamma * z_0 + delta
-    else:
-        raise "par in {0,1}"
-
-    return x
-def standard_stable(alpha: float = 2, beta: int = 0, size: int = 1) -> np.array:
-    theta = np.random.uniform(-np.pi/2, np.pi/2, size=size)
-    w = np.random.exponential(scale=1, size=size)
-    theta_0 = np.arctan(beta * np.tan(np.pi * alpha / 2))/alpha
-    if alpha != 1:
-        z_0 = np.sin(alpha * (theta_0 + theta))/(np.cos(alpha * theta_0) * np.cos(theta))**(1/alpha) * \
-              ((np.cos(alpha * theta_0 + (alpha - 1) * theta))/w) ** ((1-alpha)/alpha)
-    else:
-        z_0 = 2/np.pi*((np.pi/2 + beta*theta) * np.tan(theta) - beta * np.log((np.pi/2 * w * np.cos(theta))
-              / (np.pi/2 + beta*theta)))
-    return z_0
+def integral_form_simulation(H = 0.3, alpha = 2, M1 = -100, M2 = 100, N_trajectories = 1, I = 10000, dt = 0.01):
+    tau = (M2 - M1) / I
+    S = M1 + np.arange(0, I + 1) * tau
+    cut_point_1 = np.where(S > 0)[0][0] # changing sign
+    S_negative = S[:cut_point_1 - 1]
+    max_S_neg = np.maximum((-S_negative) ** (H - 1 / alpha), 0)
+    T = np.arange(0, dt * 999, dt)
+    M = np.ones((N_trajectories, len(T)))
+    for i in range(N_trajectories):
+        Z = alphastable(len(S), 1, alpha = alpha, beta = 0, gamma = tau ** (1 / alpha), delta = 0, k = 1)
+        for j, t in enumerate(T):
+            F = f_levy(H, alpha, S, t, cut_point_1, S_negative, max_S_neg)
+            M[i, j] = F @ Z[:len(F)]
+    return T, M
