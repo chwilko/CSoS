@@ -42,9 +42,36 @@ def tau(X, Y):
 
 
 def equantile(X, alpha):
-    return np.sort(X, 0)[alpha * len(X) // 1]
+    return np.sort(X, 0)[int((alpha * len(X)) // 1)]
+
+def equantile_proces(X, alpha):
+    quantiles = np.zeros(len(X[0,:]))
+    for t in range(len(X[0,:])):
+        quantiles[t] = equantile(X[:,t], alpha)
+    return quantiles
 
 def equantile_list(X):
     a = np.sort(X, 0)
     a[0] = 0
     return a
+
+def characteristic_proces_r_i(x, data):
+    phi = np.zeros(len(x),dtype=complex)
+    for i, x_i in enumerate(x):
+        p = 1 / len(data) * np.sum(np.exp(1j * x_i * data))
+        phi[i] = p
+    return [np.real(phi), np.imag(phi)]
+
+def TAMSD(X, tau):
+    try:
+        return np.sum((X[tau:] - X[:-tau]) ** 2) / (len(X) - tau)
+    except ValueError:
+        return np.var(X)
+
+
+def EAMSD(X, tau):
+    return np.sum((X[tau,:] - X[0,:]) ** 2) / len(X[0,:])
+
+def EATAMSD(X, tau):
+    N = X.shape[1]
+    return 1 / (N) * np.array([TAMSD(X[:, k], tau) for k in range(N)])
