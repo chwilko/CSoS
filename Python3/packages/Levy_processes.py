@@ -6,7 +6,7 @@ from alphastable import alphastable
 
 
 # def Levy_prcesses(M, T, dt, alpha, beta, T0=0):
-def Levy_prcesses(T, M, N, alpha, beta):
+def Levy_processes(T, M, N, alpha, beta):
     """_summary_
 
     Args:
