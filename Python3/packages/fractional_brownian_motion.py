@@ -4,7 +4,7 @@ from alphastable import alphastable
 def integral_form_simulation(N, f, dt, alpha = 0.5):
     Z = alpha_stable_levy_motion(alpha, dt, N + 1, 1)[0]
     # Z = alphastable(N, 1, alpha = alpha, beta = 0, gamma = dt ** (1 / alpha), delta = 0, k = 1)
-    return f.T @ np.diff(Z)
+    return f @ np.diff(Z)
 def alpha_stable_levy_motion(alpha, dt, n, num_trajectories):
     h = dt
     M = np.zeros((num_trajectories, n))
