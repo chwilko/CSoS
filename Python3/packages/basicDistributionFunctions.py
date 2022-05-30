@@ -73,4 +73,4 @@ def EAMSD(X, tau):
 
 def EATAMSD(X, tau):
     N = X.shape[1]
-    return 1 / (N) * np.array([TAMSD(X[:, k], tau) for k in range(N)])
+    return 1 / N * np.array([TAMSD(X[:, k], tau) for k in range(N)])
