@@ -79,14 +79,14 @@ def EATAMSD(X, tau):
     N = X.shape[1]
     return 1 / (N) * np.array([TAMSD(X[:, k], tau) for k in range(N)])
 
+@jit
 def TAMSD_confidence_intervals(X, taus, alpha = 0.05):
     lower = np.ones(len(taus))
     upper = np.ones(len(taus))
     val_list = np.ones(len(X))
-    for tau in taus:
+    for i, tau in enumerate(taus):
         for k in range(len(X)):
             val_list[k] = TAMSD(X[:, k], tau)
-        
-
-
-
+        lower[i] = np.quantile(val_list, alpha / 2)
+        upper[i] = np.quantile(val_list, 1 - alpha / 2)
+    return lower, upper
