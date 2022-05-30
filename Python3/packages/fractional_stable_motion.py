@@ -16,10 +16,10 @@ def integral_form_simulation(H = 0.3, alpha = 2, beta = 0, M1 = -100, M2 = 100, 
     S_negative = S[:cut_point_1 - 1]
     max_S_neg = np.maximum((-S_negative) ** (H - 1 / alpha), 0)
     T = np.arange(0, dt * 999, dt)
-    M = np.ones((N_trajectories, len(T)))
+    M = np.ones((len(T), N_trajectories))
     for i in range(N_trajectories):
         Z = alphastable(len(S), 1, alpha = alpha, beta = beta, gamma = tau ** (1 / alpha), delta = 0, k = 1)
         for j, t in enumerate(T):
             F = f_levy(H, alpha, S, t, cut_point_1, S_negative, max_S_neg)
-            M[i, j] = F @ Z[:len(F)]
+            M[j, i] = F @ Z[:len(F)]
     return T, M

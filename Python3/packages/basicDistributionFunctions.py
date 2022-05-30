@@ -1,4 +1,5 @@
 import numpy as np
+from numba import jit
 #? basicDistributionFunctions.py
 
 def CDF(t, X):
@@ -62,15 +63,27 @@ def characteristic_proces_r_i(x, data):
         phi[i] = p
     return [np.real(phi), np.imag(phi)]
 
+@jit
 def TAMSD(X, tau):
     try:
         return np.sum((X[tau:] - X[:-tau]) ** 2) / (len(X) - tau)
-    except ValueError:
+    except:
         return np.var(X)
 
+@jit
 def EAMSD(X, tau):
     return np.sum((X[tau,:] - X[0,:]) ** 2) / len(X[0,:])
 
+@jit
 def EATAMSD(X, tau):
     N = X.shape[1]
     return 1 / N * np.array([TAMSD(X[:, k], tau) for k in range(N)])
+
+def TAMSD_confidence_intervals(X, taus, alpha = 0.05):
+    lower = np.ones(len(taus))
+    upper = np.ones(len(taus))
+    val_list = np.ones(len(X))
+    for tau in taus:
+        for k in range(len(X)):
+            val_list[k] = TAMSD(X[:, k], tau)
+        

@@ -10,10 +10,10 @@ def integral_form_ou_simulation(lam = 2, sigma = 2, alpha = 2, beta = 0, M1 = -1
     tau = (M2 - M1) / I
     S = M1 + np.arange(0, I + 1) * tau
     T = np.arange(0, dt * 999, dt)
-    M = np.ones((N_trajectories, len(T)))
+    M = np.ones((len(T), N_trajectories))
     for i in range(N_trajectories):
         Z = alphastable(len(S), 1, alpha = alpha, beta = beta, gamma = tau ** (1 / alpha), delta = 0, k = 1)
         for j, t in enumerate(T):
             F = f_ou(lam, sigma, S, t)
-            M[i, j] = F @ Z[:len(F)]
+            M[j, i] = F @ Z[:len(F)]
     return T, M
