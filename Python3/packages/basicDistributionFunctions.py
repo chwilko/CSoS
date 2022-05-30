@@ -61,7 +61,7 @@ def equantile_list(X):
 def characteristic_proces_r_i(x, data):
     phi = np.zeros(len(x),dtype=complex)
     for i, x_i in enumerate(x):
-        p = 1 / len(data[0,:]) * np.sum(np.exp(1j * x_i * data[]))
+        p = 1 / len(data[0,:]) * np.sum(np.exp(1j * x_i * data))
         phi[i] = p
     return [np.real(phi), np.imag(phi)]
 
