@@ -76,11 +76,10 @@ def TAMSD(X, tau):
 def EAMSD(X, tau):
     return np.sum((X[tau,:] - X[0,:]) ** 2) / len(X[0,:])
 
+@jit
 def EATAMSD(X, tau):
     N = X.shape[1]
-    # return 1 / N * np.array([TAMSD(X[:, k], tau) for k in range(N)])
-    result =  Parallel(n_jobs = 8)(delayed(TAMSD)(X[:, k], tau) for k in range(N))
-    return 1 / N * np.sum(result)
+    return 1 / N * np.sum(np.array([TAMSD(X[:, k], tau) for k in range(N)]))
 
 @jit
 def TAMSD_confidence_intervals(X, taus, alpha = 0.05):
