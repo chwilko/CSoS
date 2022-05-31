@@ -9,16 +9,22 @@ def make_cache_dir(_CACHE_FILE = _CACHE_FILE):
     if not _CACHE_FILE in os.listdir():
         os.mkdir(_CACHE_FILE)
 
-
-# def get_name(fun, *args):
-#     name = ""
-#     name += fun.__name__ + "_"
-#     for arg in args:
-#         name += arg.__name__ + "_"
-#     return name
-
-
 def cache(MSC_name=None):
+    f"""Dekorator który cachuje wynik funkcji. 
+        Jeżeli klucz istnieje kożysta z cacha, jeżeli nie
+        to zapisuje go do pliku MSC_name.
+        (Jeżeli MSC_name == None zapisuje do pliku o nazwie funkcji).
+        Dekorator dodaje argument opcjonalny use_cache,
+            który jeżeli jest False nadpisuje cacha nowym,
+            w przeciwnym wypadku kożysta z cache.
+
+    Args:
+        MSC_name (string, optional): Klucz po którym dobierany jest cache.
+            If None MSC_name to nazwa cachowanej funkcji. Defaults to None.
+
+    Returns:
+        fun: funkcja która kożysta z cacha.
+    """    
     if not _CACHE_FILE in os.listdir():
         make_cache_dir(_CACHE_FILE) 
     @use_par(MSC_name)
@@ -36,17 +42,16 @@ def cache(MSC_name=None):
     return wrapper
 
 def save_to_file(lists, file_name, header="", sep_in_data=","):
-    ''' NIEPRAWDA DO POPRAWIENIA
-    save_to_file(lists, file_name, header="", sep_in_data=",")
-
-    lists -> lista list plików do zapisania
-    file_name -> nazwa pliku, w którym mają być zapisane dane
-    header -> pierwsza linijka stanowiąca opis danych,
-        ignorowana później, przy odczytywaniu
-    sep_in_data -> znak jakim mają być oddzielane dane
-    Funkcja zapisuje podane estymowane dane do późniejszego wykożystania.
+    """Funkcja zapisuje podane estymowane dane do późniejszego wykożystania.
     Aby je późnije odczytać należy użyć funkcji read_from_file.
-    '''
+
+    Args:
+        lists (_type_): lista list plików do zapisania. najlepiej dwuwymiarowy np.array
+        file_name (string): azwa pliku, w którym mają być zapisane dane
+        header (str, optional): pierwsza linijka stanowiąca opis danych,
+            ignorowana później, przy odczytywaniu. Defaults to "".
+        sep_in_data (str, optional): znak jakim mają być oddzielane dane. Defaults to ",".
+    """
     ret = header + "\n"
     for l in lists:
         for i in l:
@@ -66,16 +71,18 @@ def save_to_file(lists, file_name, header="", sep_in_data=","):
             f.write(ret)
 
 def read_from_file(file_name, sep_in_data=",", show_warr=True):
-    ''' NIEPRAWDA DO POPRAWIENIA
-    read_from_file(file_name, sep_in_data=",", show_warr=True)
+    """Funkcja odczytuje zapisane wczesniej dane funkcją save_to_file.
 
-    file_name -> nazwa pliku, z którego mają być odczytane dane
-    sep_in_data -> znak jakim mają być oddzielane dane
-    show_war -> jeżeli true, funkcja wyświetli ostrzerzenie
-        jeżeli danych nie uda się zamienić na liczby
-        i zwruci je jako str
-    Funkcja odczytuje zapisane wczesniej dane funkcją save_to_file.
-    '''
+    Args:
+        file_name (string): nazwa pliku, z którego mają być odczytane dane
+        sep_in_data (str, optional): znak jakim mają być oddzielane dane. Defaults to ",".
+        show_warr (bool, optional): jeżeli true, funkcja wyświetli ostrzerzenie
+            jeżeli danych nie uda się zamienić na liczby
+            i zwruci je jako str. Defaults to True.
+
+    Returns:
+        np.array: dwuwymiarowa macierz 
+    """
     with open(file_name, "r") as f:
         data = f.read()
     data = data.split("\n")
@@ -107,7 +114,6 @@ def use_par(par):
 
 
 if __name__ == "__main__":
-    # _MSC_USE_CACHE = False
     @cache("foo")
     def foo(a, b):
         return [[a + b]]
