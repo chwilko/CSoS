@@ -1,6 +1,6 @@
 import numpy as np
 
-from basicDistributionFunctions import tau
+from packages.basicDistributionFunctions import tau
 
 def MN_distribution_old(N, mu, sigma):
     MN = []
@@ -56,23 +56,13 @@ def multivate_characteristic_r_i_2_dim(T1, T2, X):
     return [Re / len(X), Im /len(X)]
 
 
-# def multivate_characteristic(Tau, X):
-#     '''
-#         Tau -- list of meshgrids
-#     '''
-#     T = np.zeros(Tau[0].shape)
-#     N = len(X)
-#     for i in range(len(Tau)):
-#         for k in range(N):
-#             T[i] += Tau[i] * X[k][i]
-#     T = T / N
-#     return np.exp(1j * T)
+
 
 
 def tau_2_dim(X):
     X = np.array(X)
     if X.shape[1] != 2:
-        raise("you have {X.shape} shape of X it should be (N, 2)")
+        raise(f"you have {X.shape} shape of X it should be (N, 2)")
     return tau(X[:,0], X[:,1])
     
 

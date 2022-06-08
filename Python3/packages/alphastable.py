@@ -1,28 +1,20 @@
+from argparse import ArgumentError
 import numpy as np
-from basicDistributionFunctions import characterist_r_i, CDF2
+from packages.basicDistributionFunctions import characterist_r_i, CDF2
 
 if __name__ == "__main__":
     from basicDistributionFunctions import *
     import matplotlib.pyplot as plt
 
 
-def alphastable_(N, M, alpha, beta):
-    """_summary_
-
-    Args:
-        N (_type_): _description_
-        M (_type_): _description_
-        alpha (_type_): _description_
-        beta (_type_): _description_
-
-    Returns:
-        _type_: _description_
-    """
+def _alphastable(N:int, M:int, alpha:float, beta:float):
+    if alpha < 0 or alpha > 2:
+        raise ArgumentError("Variable alpha must be in [0, 2] interval") 
     try:
         U = np.pi * (np.random.rand(N, M) - 1 / 2)
         W = -1 * np.log(np.random.rand(N, M))
     except TypeError:
-        print("Warrning: alphastable_ in alphastable.py")
+        print("Warrning: _alphastable in alphastable.py")
         print("        U = np.pi * (np.random.rand(N, M) - 1 / 2)")
         print(f"N and M should be int not {type(N)} and {type(M)}")
         U = np.pi * (np.random.rand(int(N), int(M)) - 1 / 2)
@@ -39,7 +31,7 @@ def alphastable_(N, M, alpha, beta):
         X = S * (np.sin(alpha * (U + B))) / ((np.cos(U)) ** (1 / alpha)) * ((np.cos(U - alpha * (U + B))) / W) ** ((1 - alpha) / alpha)
     return X
 
-def alphastable(N, M, alpha, beta, gamma, delta, k):
+def alphastable(N:int, M:int, alpha:float, beta:float, gamma:float, delta:float, k:int):
     """_summary_
 
     Args:
@@ -56,17 +48,17 @@ def alphastable(N, M, alpha, beta, gamma, delta, k):
     """    
     if k == 0:
         if alpha == 1:
-            X = gamma * alphastable_(N, M, alpha, beta) + delta
+            X = gamma * _alphastable(N, M, alpha, beta) + delta
         else:
-            X = gamma * (alphastable_(N, M, alpha, beta) - beta * np.tan(np.pi * alpha / 2)) + delta
+            X = gamma * (_alphastable(N, M, alpha, beta) - beta * np.tan(np.pi * alpha / 2)) + delta
     else:
         if alpha == 1:
-            X = gamma * alphastable_(N, M, alpha, beta) + (delta + beta * 2 / np.pi * gamma * np.log(gamma))
+            X = gamma * _alphastable(N, M, alpha, beta) + (delta + beta * 2 / np.pi * gamma * np.log(gamma))
         else:
-            X = gamma * alphastable_(N, M, alpha, beta) + delta
+            X = gamma * _alphastable(N, M, alpha, beta) + delta
     return X
 
-def multivariate_alphastable(alpha, gamma, points, N = 1):
+def multivariate_alphastable(alpha:float, gamma:float, points, N = 1):
     """function to simulate multivariate alpha stable variable
     for the discrete spectral measure
 

@@ -1,5 +1,5 @@
 import numpy as np
-from alphastable import alphastable
+from packages.alphastable import alphastable
 
 def multivariate_alphastable(alpha, gamma, points):
     """function to simulate multivariate alpha stable variable

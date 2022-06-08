@@ -2,7 +2,7 @@ import numpy as np
 from numba import jit
 
 @jit
-def f_levy(H, alpha, S, t, cut_point_1, S_negative, max_S_neg):
+def f_levy(H:float, alpha:float, S, t, cut_point_1, S_negative, max_S_neg):
     cut_point_2 = np.where(S > t)[0][0] # less than t
     S_positive = S[cut_point_1 - 1:cut_point_2 - 1]
     return np.concatenate(
@@ -26,7 +26,7 @@ def integral_form_simulation(H = 0.3, alpha = 2, beta = 0, M1 = -100, M2 = 100, 
     return T, M
 
 @jit
-def alphastable_(N, M, alpha, beta):
+def alphastable_(N:int, M:int, alpha:float, beta:float):
     """_summary_
 
     Args:

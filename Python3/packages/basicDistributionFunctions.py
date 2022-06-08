@@ -91,3 +91,20 @@ def TAMSD_confidence_intervals(X, taus, alpha = 0.05):
         lower[i] = np.quantile(val_list, alpha / 2)
         upper[i] = np.quantile(val_list, 1 - alpha / 2)
     return lower, upper
+
+
+
+def exit_times(trajectories, a, b, dt = 1):
+    tau = np.zeros(len(trajectories[0]))
+    i = 0
+    trajectories = np.argwhere(1 - ((trajectories > a).astype(int) * (trajectories < b).astype(int)))
+    try:
+        while not tau.all():
+            if tau[trajectories[i][1]] == 0:
+                tau[trajectories[i][1]] = trajectories[i][0]
+            i += 1
+    except IndexError:
+        tau[tau == 0] = None
+    return tau * dt
+
+

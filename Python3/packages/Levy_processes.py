@@ -1,11 +1,12 @@
+import sys
 import numpy as np
 from scipy.stats import kstest
 from matplotlib import pyplot as plt
 
-from alphastable import alphastable
+
+from packages.alphastable import alphastable
 
 
-# def Levy_prcesses(M, T, dt, alpha, beta, T0=0):
 def Levy_processes(T, M, N, alpha, beta):
     """_summary_
 
@@ -19,7 +20,6 @@ def Levy_processes(T, M, N, alpha, beta):
     Returns:
         np.array: Levy proceses 
     """    
-    # N = (T - T0)/ dt
     S = alphastable(N, M,
         alpha, beta,
         (T/N) ** (1/alpha), 0, 1)
@@ -28,7 +28,6 @@ def Levy_processes(T, M, N, alpha, beta):
     return X
 
 
-# def Levy_characteri()
 
 
 if __name__ == "__main__":

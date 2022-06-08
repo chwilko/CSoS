@@ -36,7 +36,7 @@ def cache(MSC_name=None):
                 return read_from_file(os.sep.join([_CACHE_FILE, MSC_name]))
             ret = fun(*args)
             save_to_file(ret, os.sep.join([_CACHE_FILE, MSC_name]), MSC_name)
-            return fun(*args)
+            return ret
         TO_RETURN.__name__ = fun.__name__
         return TO_RETURN
     return wrapper
